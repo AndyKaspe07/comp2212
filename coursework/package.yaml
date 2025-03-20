@@ -1,4 +1,4 @@
-name:       COMP2212 - Coursework
+name:       coursework
 version:    0.1.0.0
 github:     "AndyKaspe07/comp2212"
 license:    BSD-3-Clause
@@ -19,6 +19,7 @@ description: Alex and Happy project.
 dependencies:
 - base >= 4.7 && < 5
 - array
+- split
 
 ghc-options:
 - -Wall
@@ -39,19 +40,20 @@ library:
       happy:happy
 
 executables:
-  coursework-exe:
-    main:        Main.hs
-    source-dirs: app
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+  parseCSV-exe:
+    main: ParserMain.hs
+    source-dirs: app/CSVParser
     dependencies:
-    - coursework
+      - coursework
+  main-exe:
+    main: Main.hs
+    source-dirs: app/Main
+    dependencies:
+      - coursework
 
 tests:
   coursework-test:
-    main:        Spec.hs
+    main: Spec.hs
     source-dirs: test
     ghc-options:
     - -threaded

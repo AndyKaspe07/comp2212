@@ -7,9 +7,8 @@ cabal-version: 2.2
 name:           coursework
 version:        0.1.0.0
 description:    Alex and Happy project.
-homepage:       https://github.com/githubuser/coursework#readme
-bug-reports:    https://github.com/githubuser/coursework/issues
-author:         Author name here
+homepage:       https://github.com/AndyKaspe07/comp2212#readme
+bug-reports:    https://github.com/AndyKaspe07/comp2212/issues
 maintainer:     example@example.com
 copyright:      2025 Author name here
 license:        BSD-3-Clause
@@ -21,10 +20,11 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/coursework
+  location: https://github.com/AndyKaspe07/comp2212
 
 library
   exposed-modules:
+      CSVParser
       Lib
   other-modules:
       Paths_coursework
@@ -36,24 +36,42 @@ library
   build-depends:
       array
     , base >=4.7 && <5
+    , split
   default-language: Haskell2010
   build-tool-depends:
     alex:alex,
     happy:happy
 
-executable coursework-exe
+executable main-exe
   main-is: Main.hs
   other-modules:
       Paths_coursework
   autogen-modules:
       Paths_coursework
   hs-source-dirs:
-      app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+      app/Main
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       array
     , base >=4.7 && <5
     , coursework
+    , split
+  default-language: Haskell2010
+
+executable parseCSV-exe
+  main-is: ParserMain.hs
+  other-modules:
+      Paths_coursework
+  autogen-modules:
+      Paths_coursework
+  hs-source-dirs:
+      app/CSVParser
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      array
+    , base >=4.7 && <5
+    , coursework
+    , split
   default-language: Haskell2010
 
 test-suite coursework-test
@@ -70,4 +88,5 @@ test-suite coursework-test
       array
     , base >=4.7 && <5
     , coursework
+    , split
   default-language: Haskell2010
