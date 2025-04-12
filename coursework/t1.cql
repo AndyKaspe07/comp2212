@@ -1,0 +1,2 @@
+Result = Product(A, B)
+
