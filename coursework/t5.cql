@@ -1,0 +1,1 @@
+Result = LeftJoin(P, Q)

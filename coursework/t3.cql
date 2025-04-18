@@ -1,0 +1,1 @@
+Result = Filter(D, 1 != "")

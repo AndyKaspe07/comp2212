@@ -34,6 +34,12 @@ ghc-options:
 
 library:
   source-dirs: src
+  exposed-modules:
+    - Lib
+    - Interpreter
+    - CSVParser
+    - Parser
+    - Lexer
   verbatim: |
     build-tool-depends:
       alex:alex,
