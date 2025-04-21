@@ -1,0 +1,9 @@
+f1 = Read(EX5A)
+f2 = Read(EX5B)
+f3 = LeftJoin(f1,f2) 
+final = Select(0, 
+	       IF 1 == "" THEN 5 ELSE 1,
+               IF 2 == "" THEN 6 ELSE 2,
+               IF 3 == "" THEN 7 ELSE 3
+               FROM f3)
+Output(final)
