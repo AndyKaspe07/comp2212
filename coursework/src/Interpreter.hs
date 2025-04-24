@@ -4,7 +4,6 @@ module Interpreter (runProgram) where
 import Data.List (intercalate, sort, isPrefixOf, isSuffixOf, isInfixOf)
 import Control.Monad (forM_, foldM)
 import Data.Char (isSpace)
-import System.IO
 import Parser
 import Data.List.Split (splitOn)
 import qualified Data.Set as Set
@@ -83,10 +82,17 @@ evalOperation env (SelectOp items files) = do
       return [ map (resolve row) items | row <- rows ]
     _ -> fail "Select only supports one input file"
 
-evalOperation env (DistinctOp col file) = do
+evalOperation env (DistinctOp file col) = do
   rows <- load env file
   return $ distinctByCol col rows
 
+evalOperation env (TopOp file n) = do
+  rows <- load env file
+  return $ take n rows
+
+evalOperation env (BottomOp file n) = do
+  rows <- load env file
+  return $ reverse (take n (reverse rows))
 
 
 
@@ -102,7 +108,7 @@ evalCond (CondSimple c) row = evalBaseCond c row
 evalCond (CondAnd a b) row = evalCond a row && evalCond b row
 evalCond (CondOr a b) row = evalCond a row || evalCond b row
 
-
+evalBaseCond :: Cond -> [String] -> Bool
 evalBaseCond (Cond i1 comp i2) row =
   let v1 = resolveIdent i1 row  -- actual value from CSV row
       v2 = resolveIdent i2 row  -- pattern or string to match against

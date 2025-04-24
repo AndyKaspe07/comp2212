@@ -9,7 +9,8 @@ $alpha     = [a-zA-Z]
 $alphanum  = [$alpha$digit]
 
 tokens :-
-  $white+                ; 
+  $white+                ;
+  "//"[^\n]*             ;
   "="                   { \p _ -> TokenAssign p }
   "("                   { \p _ -> TokenLParen p }
   ")"                   { \p _ -> TokenRParen p }
@@ -23,6 +24,8 @@ tokens :-
   "Read"                { \p _ -> TokenRead p }
   "Select"              { \p _ -> TokenSelect p }
   "Filter"              { \p _ -> TokenFilter p }
+  "Top"                 { \p _ -> TokenTop p }
+  "Bottom"              { \p _ -> TokenBottom p }
   "Distinct"            { \p _ -> TokenDistinct p}
   "Product"             { \p _ -> TokenProduct p }
   "LeftJoin"            { \p _ -> TokenLeftJoin p }
@@ -57,6 +60,8 @@ data Token
   | TokenOr AlexPosn
   | TokenSelect AlexPosn
   | TokenDistinct AlexPosn
+  | TokenTop AlexPosn
+  | TokenBottom AlexPosn
   | TokenFilter AlexPosn
   | TokenProduct AlexPosn
   | TokenLeftJoin AlexPosn
