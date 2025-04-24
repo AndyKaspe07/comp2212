@@ -32,7 +32,7 @@ interpretStmt env (Assign outName op) = do
   putStrLn $ "Evaluating operation: " ++ show op ++ " -> " ++ outName
   result <- evalOperation env op
   let env' = (outName, result) : env
-  forM_ (sort result) (putStrLn . rowToCSV)
+  forM_ result (putStrLn . rowToCSV)
   return env'
 
 -- Standalone operation (without assignment)
@@ -132,6 +132,7 @@ distinctByCol col rows = go Set.empty rows
       | val `Set.member` seen = go seen rs
       | otherwise = r : go (Set.insert val seen) rs
       where val = safeIndex col r
+
 
 
 -- Convert SelectItem into string value
