@@ -32,11 +32,14 @@ import Lexer
   "!="        { TokenInEq _ }
   "<"         { TokenLt _ }
   ">"         { TokenGt _ }
+  "^="        { TokenStartsWith _ }
+  "=^"        { TokenEndsWith _ }
+  "~="        { TokenContains _ }
   int         { TokenColumn _ $$ }
   str         { TokenString _ $$ }
   file        { TokenFileName _ $$ }
 
-%nonassoc "==" "!=" "<" ">"
+%nonassoc "==" "!=" "<" ">" "^=" "=^" "~="
 %left "AND" "OR"
 
 %%
@@ -123,6 +126,9 @@ Comparator
   | "!="                              { InEq }
   | "<"                               { Lt }
   | ">"                               { Gt }
+  | "~="                              { Contains }
+  | "^="                              { StartsWith }
+  | "=^"                              { EndsWith }
 
 {
 parseError :: [Token] -> a
@@ -171,7 +177,7 @@ data Cond = Cond Ident Comparator Ident
 data Ident = IdFile String | IdCol Int | IdStr String
   deriving Show
 
-data Comparator = Eq | Lt | Gt | InEq
+data Comparator = Eq | Lt | Gt | InEq | Contains | StartsWith | EndsWith
   deriving Show
 
 tokenPosn :: Token -> String
@@ -200,6 +206,9 @@ tokenPosn tok = case tok of
   TokenAllColumns p     -> showPos p
   TokenLt p             -> showPos p
   TokenGt p             -> showPos p
+  TokenContains p       -> showPos p
+  TokenStartsWith p     -> showPos p
+  TokenEndsWith p       -> showPos p
   TokenColumn p _       -> showPos p
   TokenFileName p _     -> showPos p
   TokenString p _       -> showPos p

@@ -34,6 +34,9 @@ tokens :-
   "<"                   { \p _ -> TokenLt p }
   ">"                   { \p _ -> TokenGt p }
   "*"                   { \p _ -> TokenAllColumns p}
+  "^="                  { \p _ -> TokenStartsWith p}
+  "=^"                  { \p _ -> TokenEndsWith p}
+  "~="                  { \p _ -> TokenContains p}
   \"[^\"]*\"            { \p s -> TokenString p (read s) }
   $digit+               { \p s -> TokenColumn p s }
   $alphanum+            { \p s -> TokenFileName p s }
@@ -65,6 +68,9 @@ data Token
   | TokenInEq AlexPosn
   | TokenLt AlexPosn
   | TokenGt AlexPosn
+  | TokenStartsWith AlexPosn
+  | TokenEndsWith AlexPosn
+  | TokenContains AlexPosn
   | TokenColumn AlexPosn String
   | TokenFileName AlexPosn String
   | TokenString AlexPosn String

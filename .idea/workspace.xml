@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e432edeb-da98-4929-97af-20a97abb5952" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/coursework/src/test.cql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/coursework/src/test.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/test.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/Interpreter.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/Interpreter.hs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/lexer.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/lexer.hs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/lexer.x" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/lexer.x" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/parser.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/parser.hs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/parser.y" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/parser.y" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +77,7 @@
       <workItem from="1742492773462" duration="183000" />
       <workItem from="1743705110931" duration="6000" />
       <workItem from="1743858217639" duration="386000" />
-      <workItem from="1745418939706" duration="8793000" />
+      <workItem from="1745418939706" duration="13347000" />
     </task>
     <servers />
   </component>

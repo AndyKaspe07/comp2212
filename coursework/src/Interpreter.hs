@@ -1,7 +1,7 @@
 module Interpreter (runProgram) where
 
 
-import Data.List (intercalate, sort)
+import Data.List (intercalate, sort, isPrefixOf, isSuffixOf, isInfixOf)
 import Control.Monad (forM_, foldM)
 import Data.Char (isSpace)
 import System.IO
@@ -103,17 +103,18 @@ evalCond (CondAnd a b) row = evalCond a row && evalCond b row
 evalCond (CondOr a b) row = evalCond a row || evalCond b row
 
 
-
--- Evaluate single condition
-evalBaseCond :: Cond -> [String] -> Bool
 evalBaseCond (Cond i1 comp i2) row =
-  let v1 = resolveIdent i1 row
-      v2 = resolveIdent i2 row
+  let v1 = resolveIdent i1 row  -- actual value from CSV row
+      v2 = resolveIdent i2 row  -- pattern or string to match against
   in case comp of
-    Eq   -> v1 == v2
-    InEq -> v1 /= v2
-    Lt   -> v1 < v2
-    Gt   -> v1 > v2
+    Eq         -> v1 == v2
+    InEq       -> v1 /= v2
+    Lt         -> v1 < v2
+    Gt         -> v1 > v2
+    StartsWith -> v2 `isPrefixOf` v1
+    EndsWith   -> v2 `isSuffixOf` v1
+    Contains   -> v2 `isInfixOf` v1
+
 
 
 
