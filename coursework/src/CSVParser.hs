@@ -10,4 +10,3 @@ readCSV filePath = do
     content <- readFile filePath
     let linesOfFile = lines content
     return $ map (splitOn ",") linesOfFile
-

@@ -19,6 +19,8 @@ import Lexer
   "IF"        { TokenIf _ }
   "THEN"      { TokenThen _ }
   "ELSE"      { TokenElse _ }
+  "Distinct"  { TokenDistinct _ }
+  "Read"      { TokenRead _ }
   "Select"    { TokenSelect _ }
   "Filter"    { TokenFilter _ }
   "Product"   { TokenProduct _ }
@@ -64,8 +66,14 @@ Operation
   | "Filter" "(" file "," ConditionList ")" {
       FilterOp $3 $5
     }
+  | "Distinct" "(" int "," file ")"  {
+      DistinctOp (read $3) $5
+    }
   | "Product" "(" file "," file ")" {
       ProductOp $3 $5
+    }
+  | "Read" "(" file ")" {
+      ReadOp $3
     }
   | "LeftJoin" "(" file "," file ")" {
       LeftJoinOp $3 $5
@@ -76,6 +84,7 @@ Operation
   | "InnerJoin" "(" file "," file ")" {
       InnerJoinOp $3 $5
     }
+
 
 SelectArgs
   : SelectItem                        { [$1] }
@@ -133,6 +142,8 @@ data Operation
   = SelectOp [SelectItem] [String]
   | FilterOp String CondExpr
   | ProductOp String String
+  | DistinctOp Int String
+  | ReadOp String
   | LeftJoinOp String String
   | RightJoinOp String String
   | InnerJoinOp String String
@@ -170,6 +181,7 @@ tokenPosn tok = case tok of
   TokenRParen p         -> showPos p
   TokenComma p          -> showPos p
   TokenFrom p           -> showPos p
+  TokenDistinct p       -> showPos p
   TokenIf p             -> showPos p
   TokenAnd p            -> showPos p
   TokenOr p             -> showPos p

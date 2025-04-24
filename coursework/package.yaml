@@ -2,7 +2,6 @@ name:       coursework
 version:    0.1.0.0
 github:     "AndyKaspe07/comp2212"
 license:    BSD-3-Clause
-authors:     "Anderson Kaspe, Harry Vinall & Alexis Shiacolas"
 maintainer: "example@example.com"
 copyright:  "2025 Author name here"
 
@@ -20,6 +19,7 @@ dependencies:
 - base >= 4.7 && < 5
 - array
 - split
+- containers
 
 ghc-options:
 - -Wall
@@ -46,11 +46,7 @@ library:
       happy:happy
 
 executables:
-  parseCSV-exe:
-    main: ParserMain.hs
-    source-dirs: app/CSVParser
-    dependencies:
-      - coursework
+
   main-exe:
     main: Main.hs
     source-dirs: app/Main

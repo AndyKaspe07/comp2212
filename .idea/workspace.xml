@@ -5,8 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e432edeb-da98-4929-97af-20a97abb5952" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/coursework/Tokens.x" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/coursework/src/test.cql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/coursework/src/test.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX1A.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX1A.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX1B.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX1B.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX2A.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX2A.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX3A.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX3A.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX4A.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX4A.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX5A.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX5A.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX5B.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX5B.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interpreter.hs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.hs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/app/CSVParser/ParserMain.hs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/app/Main/Main.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/app/Main/Main.hs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/coursework.cabal" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/coursework.cabal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/package.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/package.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/CSVParser.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/CSVParser.hs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/Interpreter.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/Interpreter.hs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/Lib.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/Lib.hs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/Main" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/Main.hs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/lexer.hs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/lexer.x" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/lexer.x" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/parser.hs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/parser.y" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/parser.y" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/test.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ex1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/ex1.cql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ex2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/ex2.cql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ex3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/ex3.cql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ex4.txt" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/ex4.cql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ex5.txt" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/ex5.cql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lexer.hs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lexer.x" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser.hs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser.y" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +76,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/coursework/src" />
       <recent name="$PROJECT_DIR$/coursework/app/Main" />
       <recent name="$PROJECT_DIR$/coursework/app/CSVParser" />
       <recent name="$PROJECT_DIR$/coursework" />
@@ -70,6 +105,7 @@
       <workItem from="1742492773462" duration="183000" />
       <workItem from="1743705110931" duration="6000" />
       <workItem from="1743858217639" duration="386000" />
+      <workItem from="1745418939706" duration="7755000" />
     </task>
     <servers />
   </component>

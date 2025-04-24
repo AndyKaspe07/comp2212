@@ -1,3 +1,0 @@
-B = Select(1,
-           IF 2 != "" THEN 2 ELSE "null" FROM A)
-

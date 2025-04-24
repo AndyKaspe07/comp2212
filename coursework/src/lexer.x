@@ -20,8 +20,10 @@ tokens :-
   "IF"                  { \p _ -> TokenIf p }
   "THEN"                { \p _ -> TokenThen p }
   "ELSE"                { \p _ -> TokenElse p }
+  "Read"                { \p _ -> TokenRead p }
   "Select"              { \p _ -> TokenSelect p }
   "Filter"              { \p _ -> TokenFilter p }
+  "Distinct"            { \p _ -> TokenDistinct p}
   "Product"             { \p _ -> TokenProduct p }
   "LeftJoin"            { \p _ -> TokenLeftJoin p }
   "RightJoin"           { \p _ -> TokenRightJoin p }
@@ -47,9 +49,11 @@ data Token
   | TokenIf AlexPosn
   | TokenThen AlexPosn
   | TokenElse AlexPosn
+  | TokenRead AlexPosn
   | TokenAnd AlexPosn
   | TokenOr AlexPosn
   | TokenSelect AlexPosn
+  | TokenDistinct AlexPosn
   | TokenFilter AlexPosn
   | TokenProduct AlexPosn
   | TokenLeftJoin AlexPosn
