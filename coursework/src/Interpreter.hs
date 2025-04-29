@@ -69,7 +69,36 @@ evalOperation env (InnerJoinOp f1 f2) = do
 evalOperation _ (ReadOp f) = do
   a <- readNew f
   return a
-  
+
+evalOperation env (AppendOp f1 f2) = do
+  a <- load env f1
+  b <- load env f2
+  return (a ++ b)
+
+evalOperation env (DifferenceOp f1 f2) = do
+  a <- load env f1
+  b <- load env f2
+  let setA = Set.fromList a
+      setB = Set.fromList b
+      diff = Set.toList (Set.difference setA setB)
+  return diff
+
+evalOperation env (IntersectionOp f1 f2) = do
+  a <- load env f1
+  b <- load env f2
+  let setA = Set.fromList a
+      setB = Set.fromList b
+      common = Set.toList (Set.intersection setA setB)
+  return common
+
+
+evalOperation env (UnionOp f1 f2) = do
+  a <- load env f1
+  b <- load env f2
+  let combined = a ++ b
+      uniqueRows = Set.toList (Set.fromList combined)
+  return uniqueRows
+
 
 evalOperation env (FilterOp f cond) = do
   rows <- load env f

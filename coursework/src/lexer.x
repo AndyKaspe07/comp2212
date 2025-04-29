@@ -23,6 +23,10 @@ tokens :-
   "ELSE"                { \p _ -> TokenElse p }
   "Read"                { \p _ -> TokenRead p }
   "Select"              { \p _ -> TokenSelect p }
+  "Union"               { \p _ -> TokenUnion p }
+  "Intersection"        { \p _ -> TokenIntersection p }
+  "Append"              { \p _ -> TokenAppend p }
+  "Difference"          { \p _ -> TokenDifference p }
   "Filter"              { \p _ -> TokenFilter p }
   "Top"                 { \p _ -> TokenTop p }
   "Bottom"              { \p _ -> TokenBottom p }
@@ -60,10 +64,14 @@ data Token
   | TokenOr AlexPosn
   | TokenSelect AlexPosn
   | TokenDistinct AlexPosn
+  | TokenUnion AlexPosn
   | TokenTop AlexPosn
   | TokenBottom AlexPosn
   | TokenFilter AlexPosn
   | TokenProduct AlexPosn
+  | TokenIntersection AlexPosn
+  | TokenAppend AlexPosn
+  | TokenDifference AlexPosn
   | TokenLeftJoin AlexPosn
   | TokenRightJoin AlexPosn
   | TokenInnerJoin AlexPosn

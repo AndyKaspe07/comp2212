@@ -8,38 +8,42 @@ import Lexer
 %error { parseError }
 
 %token
-  "="         { TokenAssign _ }
-  "("         { TokenLParen _ }
-  ")"         { TokenRParen _ }
-  ","         { TokenComma _ }
-  "*"         { TokenAllColumns _ }
-  "FROM"      { TokenFrom _ }
-  "AND"       { TokenAnd _ }
-  "OR"        { TokenOr _ }
-  "IF"        { TokenIf _ }
-  "THEN"      { TokenThen _ }
-  "ELSE"      { TokenElse _ }
-  "Distinct"  { TokenDistinct _ }
-  "Read"      { TokenRead _ }
-  "Select"    { TokenSelect _ }
-  "Filter"    { TokenFilter _ }
-  "Top"       { TokenTop _ }
-  "Bottom"    { TokenBottom _ }
-  "Product"   { TokenProduct _ }
-  "LeftJoin"  { TokenLeftJoin _ }
-  "RightJoin" { TokenRightJoin _ }
-  "InnerJoin" { TokenInnerJoin _ }
-  "Output"    { TokenOutput _ }
-  "=="        { TokenEq _ }
-  "!="        { TokenInEq _ }
-  "<"         { TokenLt _ }
-  ">"         { TokenGt _ }
-  "^="        { TokenStartsWith _ }
-  "=^"        { TokenEndsWith _ }
-  "~="        { TokenContains _ }
-  int         { TokenColumn _ $$ }
-  str         { TokenString _ $$ }
-  file        { TokenFileName _ $$ }
+  "="            { TokenAssign _ }
+  "("            { TokenLParen _ }
+  ")"            { TokenRParen _ }
+  ","            { TokenComma _ }
+  "*"            { TokenAllColumns _ }
+  "FROM"         { TokenFrom _ }
+  "AND"          { TokenAnd _ }
+  "OR"           { TokenOr _ }
+  "IF"           { TokenIf _ }
+  "THEN"         { TokenThen _ }
+  "ELSE"         { TokenElse _ }
+  "Distinct"     { TokenDistinct _ }
+  "Read"         { TokenRead _ }
+  "Select"       { TokenSelect _ }
+  "Filter"       { TokenFilter _ }
+  "Union"        { TokenUnion _ }
+  "Intersection" { TokenIntersection _ }
+  "Append"       { TokenAppend _ }
+  "Difference"   { TokenDifference _ }
+  "Top"          { TokenTop _ }
+  "Bottom"       { TokenBottom _ }
+  "Product"      { TokenProduct _ }
+  "LeftJoin"     { TokenLeftJoin _ }
+  "RightJoin"    { TokenRightJoin _ }
+  "InnerJoin"    { TokenInnerJoin _ }
+  "Output"       { TokenOutput _ }
+  "=="           { TokenEq _ }
+  "!="           { TokenInEq _ }
+  "<"            { TokenLt _ }
+  ">"            { TokenGt _ }
+  "^="           { TokenStartsWith _ }
+  "=^"           { TokenEndsWith _ }
+  "~="           { TokenContains _ }
+  int            { TokenColumn _ $$ }
+  str            { TokenString _ $$ }
+  file           { TokenFileName _ $$ }
 
 %nonassoc "==" "!=" "<" ">" "^=" "=^" "~="
 %left "AND" "OR"
@@ -76,6 +80,18 @@ Operation
     }
   | "Product" "(" file "," file ")" {
       ProductOp $3 $5
+    }
+  | "Union" "(" file "," file ")" {
+      UnionOp $3 $5
+    }
+  | "Intersection" "(" file "," file ")" {
+      IntersectionOp $3 $5
+    }
+  | "Append" "(" file "," file ")" {
+      AppendOp $3 $5
+    }
+  | "Difference" "(" file "," file ")" {
+      DifferenceOp $3 $5
     }
   | "Read" "(" file ")" {
       ReadOp $3
@@ -157,6 +173,10 @@ data Operation
   | FilterOp String CondExpr
   | ProductOp String String
   | DistinctOp String Int
+  | UnionOp String String
+  | IntersectionOp String String
+  | AppendOp String String
+  | DifferenceOp String String
   | TopOp String Int
   | BottomOp String Int
   | ReadOp String
@@ -206,6 +226,10 @@ tokenPosn tok = case tok of
   TokenRead p           -> showPos p
   TokenSelect p         -> showPos p
   TokenFilter p         -> showPos p
+  TokenUnion p          -> showPos p
+  TokenAppend p         -> showPos p
+  TokenDifference p     -> showPos p
+  TokenIntersection p   -> showPos p
   TokenBottom p         -> showPos p
   TokenTop p            -> showPos p
   TokenProduct p        -> showPos p
