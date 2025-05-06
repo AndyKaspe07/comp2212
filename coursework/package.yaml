@@ -20,6 +20,7 @@ dependencies:
 - array
 - split
 - containers
+- directory
 
 ghc-options:
 - -Wall
