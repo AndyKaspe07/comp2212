@@ -1,6 +1,7 @@
 module Interpreter (runProgram) where
 
-
+import System.Directory (doesFileExist)
+import Control.Exception (IOException, throwIO, handle)
 import Data.List (intercalate, sort, isPrefixOf, isSuffixOf, isInfixOf)
 import Control.Monad (forM_, foldM)
 import Data.Char (isSpace)
@@ -23,28 +24,39 @@ interpret env stmts = do
   return ()
 
 
+
+
+
 -- Handle a single statement
 interpretStmt :: Env -> Stmt -> IO Env
 
--- Assignment: result = <operation>
 interpretStmt env (Assign outName op) = do
-  putStrLn $ "Evaluating operation: " ++ show op ++ " -> " ++ outName
-  result <- evalOperation env op
-  let env' = (outName, result) : env
-  forM_ result (putStrLn . rowToCSV)
-  return env'
+  -- Check if the name already exists in the environment
+  case lookup outName env of
+    Just _  -> fail $ "Variable '" ++ outName ++ "' already exists in environment."
+    Nothing -> do
+      putStrLn $ "Evaluating operation: " ++ show op ++ " -> " ++ outName
+      result <- evalOperation env op
+      let env' = (outName, result) : env
+      forM_ result (putStrLn . rowToCSV)
+      return env'
 
 -- Standalone operation (without assignment)
 interpretStmt env (StmtOp op) = interpretStmt env (Assign "out" op)
 
---Outputs a file to cmd line
-interpretStmt env (OutputStmt file) =
-  case lookup file env of
-    Just rows -> do
-      putStrLn $ "Outputting: " ++ file
-      forM_ (sort rows) (putStrLn . rowToCSV)
-      return env
-    Nothing -> fail $ "Variable not found in environment: " ++ file
+-- Outputs a file to cmd line
+interpretStmt env (OutputStmt file) = do
+  checkInEnv env "Output" file
+  rows <- load env file
+  putStrLn $ "Outputting: " ++ file
+  forM_ (sort rows) (putStrLn . rowToCSV)
+  return env
+
+
+
+
+
+
 
 
 
@@ -53,15 +65,25 @@ interpretStmt env (OutputStmt file) =
 -- Evaluate any operation into resulting rows
 evalOperation :: Env -> Operation -> IO [[String]]
 evalOperation env (ProductOp f1 f2) = do
+  checkInEnv env "product" f1
+  checkInEnv env "product" f2
   a <- load env f1
   b <- load env f2
   return [ r1 ++ r2 | r1 <- a, r2 <- b ]
 
-evalOperation env (LeftJoinOp f1 f2) = joinWith env mergeRows f1 f2
+evalOperation env (LeftJoinOp f1 f2) = do
+  checkInEnv env "leftJoin" f1
+  checkInEnv env "leftJoin" f2
+  joinWith env mergeRows f1 f2
 
-evalOperation env (RightJoinOp f1 f2) = joinWith env mergeRows f2 f1
+evalOperation env (RightJoinOp f1 f2) = do
+  checkInEnv env "rightJoin" f1
+  checkInEnv env "rightJoin" f2
+  joinWith env mergeRows f2 f1
 
 evalOperation env (InnerJoinOp f1 f2) = do
+  checkInEnv env "innerJoin" f1
+  checkInEnv env "innerJoin" f2
   a <- load env f1
   b <- load env f2
   return [ mergeRows r1 r2 | r1 <- a, r2 <- b, safeIndex 0 r1 == safeIndex 0 r2 ]
@@ -71,57 +93,80 @@ evalOperation _ (ReadOp f) = do
   return a
 
 evalOperation env (AppendOp f1 f2) = do
+  checkInEnv env "Append" f1
+  checkInEnv env "Append" f2
   a <- load env f1
   b <- load env f2
+  checkArity a f1 b f2
   return (a ++ b)
 
 evalOperation env (DifferenceOp f1 f2) = do
+  checkInEnv env "Difference" f1
+  checkInEnv env "Difference" f2
   a <- load env f1
   b <- load env f2
+  checkArity a f1 b f2
   let setA = Set.fromList a
       setB = Set.fromList b
       diff = Set.toList (Set.difference setA setB)
   return diff
 
 evalOperation env (IntersectionOp f1 f2) = do
+  checkInEnv env "Append" f1
+  checkInEnv env "Append" f2
   a <- load env f1
   b <- load env f2
+  checkArity a f1 b f2
   let setA = Set.fromList a
       setB = Set.fromList b
       common = Set.toList (Set.intersection setA setB)
   return common
 
-
 evalOperation env (UnionOp f1 f2) = do
+  checkInEnv env "Union" f1
+  checkInEnv env "Union" f1
   a <- load env f1
   b <- load env f2
+  checkArity a f1 b f2
   let combined = a ++ b
       uniqueRows = Set.toList (Set.fromList combined)
   return uniqueRows
 
-
 evalOperation env (FilterOp f cond) = do
+  checkInEnv env "filter" f
   rows <- load env f
   return (filter (evalCond cond) rows)
 
 evalOperation env (SelectOp items files) = do
   case files of
     [f] -> do
+      checkInEnv env "Select" f
       rows <- load env f
-      return [ map (resolve row) items | row <- rows ]
+      return [ concatMap (resolve row) items | row <- rows ]
     _ -> fail "Select only supports one input file"
 
 evalOperation env (DistinctOp file col) = do
+  checkInEnv env "Distinct" file
   rows <- load env file
   return $ distinctByCol col rows
 
 evalOperation env (TopOp file n) = do
+  checkInEnv env "Top" file
   rows <- load env file
   return $ take n rows
 
 evalOperation env (BottomOp file n) = do
+  checkInEnv env "Bottom" file
   rows <- load env file
   return $ reverse (take n (reverse rows))
+
+
+
+
+
+
+
+
 
 
 
@@ -153,6 +198,11 @@ evalBaseCond (Cond i1 comp i2) row =
 
 
 
+
+
+
+
+
 -- Turn Ident into string
 resolveIdent :: Ident -> [String] -> String
 resolveIdent (IdStr s) _   = s
@@ -172,10 +222,10 @@ distinctByCol col rows = go Set.empty rows
 
 
 -- Convert SelectItem into string value
-resolve :: [String] -> SelectItem -> String
-resolve row (SelCol i)    = safeIndex i row
-resolve _   (SelStr s)    = s
-resolve _   SelAll        = error "* not supported here"
+resolve :: [String] -> SelectItem -> [String]
+resolve row (SelCol i)    = [safeIndex i row]
+resolve _   (SelStr s)    = [s]
+resolve row  SelAll       = row  -- return all fields
 resolve row (SelCond (Conditional cond thenItem elseItem)) =
   if evalCond cond row
     then resolve row thenItem
@@ -183,7 +233,31 @@ resolve row (SelCond (Conditional cond thenItem elseItem)) =
 
 
 
+
+
+
+
+
+
+
+
 -- Utilities
+checkInEnv :: Env -> String -> String -> IO ()
+checkInEnv env opName name  =
+  case lookup name env of
+    Just _ -> return ()
+    Nothing -> fail $ "Error in " ++ opName ++ "operation: File not found in environment: " ++ name
+
+checkArity :: [[String]] -> String -> [[String]] -> String -> IO ()
+checkArity f1 f1Name f2 f2Name =
+  let f1A = if null f1 then 0 else length (head f1)
+      f2A = if null f2 then 0 else length (head f2)
+  in if f1A == f2A
+       then return ()
+       else fail $
+         "Arity mismatch:" ++ f1Name ++ " has " ++ show f1A ++
+         " columns, " ++ f2Name ++ " has " ++ show f2A ++ " columns."
+
 safeIndex :: Int -> [String] -> String
 safeIndex i row = if i < length row then row !! i else ""
 
@@ -196,15 +270,24 @@ rowToCSV = intercalate ","
 --read a new file in from a csv file in memory   
 readNew :: String -> IO [[String]]
 readNew file = do
-  rows <- readCSV (file ++ ".csv")
-  return $ map (map trim) rows
+  let path = file ++ ".csv"
+  exists <- doesFileExist path
+  if not exists
+    then throwIO $ userError $ "CSV file not found: " ++ path
+    else do
+      rows <- handle
+        (\e -> throwIO $ userError $ "Error reading CSV file " ++ path ++ ": " ++ show (e :: IOException))
+        (readCSV path)
+      return $ map (map trim) rows
+
+
 
 --load an existing file in the enviroment
 load :: Env -> String -> IO [[String]]
 load env name =
   case lookup name env of
-    Just rows -> return rows
-    Nothing   -> fail $ "File not found: " ++ name
+    Just rows -> return (rows)
+    Nothing -> fail $ "File not found in environment: " ++ name
 
 joinWith :: Env -> ([String] -> [String] -> [String]) -> String -> String -> IO [[String]]
 joinWith env merge f1 f2 = do
