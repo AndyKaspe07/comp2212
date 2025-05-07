@@ -6,13 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="e432edeb-da98-4929-97af-20a97abb5952" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/coursework.cabal" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/coursework.cabal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/coursework/src/EX1A.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX1A.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/coursework/src/EX1B.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX1B.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/Interpreter.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/Interpreter.hs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/lexer.x" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/lexer.x" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/parser.y" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/parser.y" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/EX5A.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX5A.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/EX5B.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/EX5B.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/ex5.cql" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/ex5.cql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/coursework/src/test.cql" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/test.cql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/test.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +43,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -79,6 +80,15 @@
       <workItem from="1743858217639" duration="386000" />
       <workItem from="1745418939706" duration="17819000" />
       <workItem from="1745839857603" duration="4201000" />
+      <workItem from="1745942809922" duration="3375000" />
+      <workItem from="1746377935875" duration="1767000" />
+      <workItem from="1746380156847" duration="42000" />
+      <workItem from="1746383698608" duration="133000" />
+      <workItem from="1746547982634" duration="998000" />
+      <workItem from="1746569128872" duration="3314000" />
+      <workItem from="1746576835916" duration="112000" />
+      <workItem from="1746576955646" duration="256000" />
+      <workItem from="1746577219570" duration="650000" />
     </task>
     <servers />
   </component>
