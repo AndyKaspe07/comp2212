@@ -1,6 +1,6 @@
 {
-module SiftParser where
-import SiftLexer
+module Parser where
+import Lexer
 }
 
 %name parseProgram
@@ -8,42 +8,43 @@ import SiftLexer
 %error { happyError }
 
 %token
-  "="            { TokenAssign _ }
-  "("            { TokenLParen _ }
-  ")"            { TokenRParen _ }
-  ","            { TokenComma _ }
-  "*"            { TokenAllColumns _ }
-  "FROM"         { TokenFrom _ }
-  "AND"          { TokenAnd _ }
-  "OR"           { TokenOr _ }
-  "IF"           { TokenIf _ }
-  "THEN"         { TokenThen _ }
-  "ELSE"         { TokenElse _ }
-  "Distinct"     { TokenDistinct _ }
-  "Read"         { TokenRead _ }
-  "Select"       { TokenSelect _ }
-  "Filter"       { TokenFilter _ }
-  "Union"        { TokenUnion _ }
-  "Intersection" { TokenIntersection _ }
-  "Append"       { TokenAppend _ }
-  "Difference"   { TokenDifference _ }
-  "Top"          { TokenTop _ }
-  "Bottom"       { TokenBottom _ }
-  "Product"      { TokenProduct _ }
-  "LeftJoin"     { TokenLeftJoin _ }
-  "RightJoin"    { TokenRightJoin _ }
-  "InnerJoin"    { TokenInnerJoin _ }
-  "Output"       { TokenOutput _ }
-  "=="           { TokenEq _ }
-  "!="           { TokenInEq _ }
-  "<"            { TokenLt _ }
-  ">"            { TokenGt _ }
-  "^="           { TokenStartsWith _ }
-  "=^"           { TokenEndsWith _ }
-  "~="           { TokenContains _ }
-  int            { TokenColumn _ $$ }
-  str            { TokenString _ $$ }
-  file           { TokenFileName _ $$ }
+  "="            { TokenAssign p }
+  "("            { TokenLParen p }
+  ")"            { TokenRParen p }
+  ","            { TokenComma p }
+  "*"            { TokenAllColumns p }
+  "FROM"         { TokenFrom p }
+  "AND"          { TokenAnd p }
+  "OR"           { TokenOr p }
+  "IF"           { TokenIf p }
+  "THEN"         { TokenThen p }
+  "ELSE"         { TokenElse p }
+  "Distinct"     { TokenDistinct p }
+  "Read"         { TokenRead p }
+  "Select"       { TokenSelect p }
+  "Filter"       { TokenFilter p }
+  "Union"        { TokenUnion p }
+  "Intersection" { TokenIntersection p }
+  "Append"       { TokenAppend p }
+  "Difference"   { TokenDifference p }
+  "Top"          { TokenTop p }
+  "Bottom"       { TokenBottom p }
+  "Product"      { TokenProduct p }
+  "LeftJoin"     { TokenLeftJoin p }
+  "RightJoin"    { TokenRightJoin p }
+  "InnerJoin"    { TokenInnerJoin p }
+  "Output"       { TokenOutput p }
+  "=="           { TokenEq p }
+  "!="           { TokenInEq p }
+  "<"            { TokenLt p }
+  ">"            { TokenGt p }
+  "^="           { TokenStartsWith p }
+  "=^"           { TokenEndsWith p }
+  "~="           { TokenContains p }
+  int            { TokenColumn p s }
+  str            { TokenString p s }
+  file           { TokenFileName p s }
+
 
 %nonassoc "==" "!=" "<" ">" "^=" "=^" "~="
 %left "AND" "OR"
@@ -63,54 +64,55 @@ Statement
   | Output                            { $1 }
 
 Assignment
-  : file "=" Operation                { Assign $1 $3 }
+  : file "=" Operation                { case $1 of TokenFileName _ s -> Assign s $3 }
 
 Output
-  : "Output" "(" file ")"             { OutputStmt $3 }
+  : "Output" "(" file ")"             { case $3 of TokenFileName _ s -> OutputStmt s }
 
 Operation
   : "Select" "(" SelectArgs "FROM" FileList ")" {
       SelectOp $3 $5
     }
   | "Filter" "(" file "," ConditionList ")" {
-      FilterOp $3 $5
+      let { TokenFileName _ f = $3 } in FilterOp f $5
     }
-  | "Distinct" "(" file "," int ")"  {
-      DistinctOp $3 (read $5)
+  | "Distinct" "(" file "," int ")" {
+      let { TokenFileName _ f = $3; TokenColumn _ i = $5 } in DistinctOp f (read i)
     }
   | "Product" "(" file "," file ")" {
-      ProductOp $3 $5
+      let { TokenFileName _ f1 = $3; TokenFileName _ f2 = $5 } in ProductOp f1 f2
     }
   | "Union" "(" file "," file ")" {
-      UnionOp $3 $5
+      let { TokenFileName _ f1 = $3; TokenFileName _ f2 = $5 } in UnionOp f1 f2
     }
   | "Intersection" "(" file "," file ")" {
-      IntersectionOp $3 $5
+      let { TokenFileName _ f1 = $3; TokenFileName _ f2 = $5 } in IntersectionOp f1 f2
     }
   | "Append" "(" file "," file ")" {
-      AppendOp $3 $5
+      let { TokenFileName _ f1 = $3; TokenFileName _ f2 = $5 } in AppendOp f1 f2
     }
   | "Difference" "(" file "," file ")" {
-      DifferenceOp $3 $5
+      let { TokenFileName _ f1 = $3; TokenFileName _ f2 = $5 } in DifferenceOp f1 f2
     }
   | "Read" "(" file ")" {
-      ReadOp $3
+      let { TokenFileName _ f = $3 } in ReadOp f
     }
   | "Top" "(" file "," int ")" {
-      TopOp $3 (read $5)
+      let { TokenFileName _ f = $3; TokenColumn _ i = $5 } in TopOp f (read i)
     }
   | "Bottom" "(" file "," int ")" {
-      BottomOp $3 (read $5)
+      let { TokenFileName _ f = $3; TokenColumn _ i = $5 } in BottomOp f (read i)
     }
   | "LeftJoin" "(" file "," file ")" {
-      LeftJoinOp $3 $5
+      let { TokenFileName _ f1 = $3; TokenFileName _ f2 = $5 } in LeftJoinOp f1 f2
     }
   | "RightJoin" "(" file "," file ")" {
-      RightJoinOp $3 $5
+      let { TokenFileName _ f1 = $3; TokenFileName _ f2 = $5 } in RightJoinOp f1 f2
     }
   | "InnerJoin" "(" file "," file ")" {
-      InnerJoinOp $3 $5
+      let { TokenFileName _ f1 = $3; TokenFileName _ f2 = $5 } in InnerJoinOp f1 f2
     }
+
 
 
 SelectArgs
@@ -118,8 +120,8 @@ SelectArgs
   | SelectItem "," SelectArgs         { $1 : $3 }
 
 SelectItem
-  : int                               { SelCol (read $1) }
-  | str                               { SelStr $1 }
+  : int                               { case $1 of TokenColumn _ n -> SelCol (read n) }
+  | str                               { case $1 of TokenString _ s -> SelStr s }
   | "*"                               { SelAll }
   | ConditionalExpression             { SelCond $1 }
 
@@ -129,8 +131,8 @@ ConditionalExpression
     }
 
 FileList
-  : file                              { [$1] }
-  | file "," FileList                 { $1 : $3 }
+  : file                              { case $1 of TokenFileName _ s -> [s] }
+    | file "," FileList                 { case $1 of TokenFileName _ s -> s : $3 }
 
 ConditionList
   : Condition                         { CondSimple $1 }
@@ -141,9 +143,9 @@ Condition
   : Identifier Comparator Identifier  { Cond $1 $2 $3 }
 
 Identifier
-  : file                              { IdFile $1 }
-  | int                               { IdCol (read $1) }
-  | str                               { IdStr $1 }
+  : file                              { case $1 of TokenFileName _ s -> IdFile s }
+  | int                               { case $1 of TokenColumn _ s -> IdCol (read s) }
+  | str                               { case $1 of TokenString _ s -> IdStr s }
 
 Comparator
   : "=="                              { Eq }
