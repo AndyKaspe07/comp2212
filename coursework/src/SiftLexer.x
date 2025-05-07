@@ -1,5 +1,5 @@
 {
-module SiftLexer where
+module Lexer where
 }
 
 %wrapper "posn"
@@ -10,7 +10,7 @@ $alphanum  = [$alpha$digit]
 
 tokens :-
   $white+                ;
-  "//"[^\n]*             ;
+  "--"[^\n]*             ;
   "="                   { \p _ -> TokenAssign p }
   "("                   { \p _ -> TokenLParen p }
   ")"                   { \p _ -> TokenRParen p }
