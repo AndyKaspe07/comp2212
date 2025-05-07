@@ -8,13 +8,25 @@ import Data.Char (isSpace)
 import Parser
 import Data.List.Split (splitOn)
 import qualified Data.Set as Set
+import Control.Exception (Exception, throwIO)
 
 type Env = [(String, [[String]])]
 
--- Initial function to run interpreter
+data InterpreterError
+  = VarAlreadyDefined String
+  | MissingVariable String
+  | FileNotFound String
+  | ArityMismatch String
+  | InvalidOperation String
+  deriving (Show)
+
+instance Exception InterpreterError
+
 runProgram :: [Stmt] -> IO ()
-runProgram stmts = interpret initialEnv stmts
-  where initialEnv = []  
+runProgram stmts = handle printInterpreterError $ interpret [] stmts
+
+printInterpreterError :: InterpreterError -> IO ()
+printInterpreterError err = putStrLn $ "Runtime error: " ++ show err
 
 
 --Interprets each line updating enviroment each time
@@ -29,11 +41,10 @@ interpret env stmts = do
 
 -- Handle a single statement
 interpretStmt :: Env -> Stmt -> IO Env
-
 interpretStmt env (Assign outName op) = do
   -- Check if the name already exists in the environment
   case lookup outName env of
-    Just _  -> fail $ "Variable '" ++ outName ++ "' already exists in environment."
+    Just _  -> throwIO $ VarAlreadyDefined outName
     Nothing -> do
       putStrLn $ "Evaluating operation: " ++ show op ++ " -> " ++ outName
       result <- evalOperation env op
@@ -143,7 +154,7 @@ evalOperation env (SelectOp items files) = do
       checkInEnv env "Select" f
       rows <- load env f
       return [ concatMap (resolve row) items | row <- rows ]
-    _ -> fail "Select only supports one input file"
+    _ -> throwIO $ InvalidOperation "Select only supports one input file"
 
 evalOperation env (DistinctOp file col) = do
   checkInEnv env "Distinct" file
@@ -160,21 +171,9 @@ evalOperation env (BottomOp file n) = do
   rows <- load env file
   return $ reverse (take n (reverse rows))
 
-
-
-
-
-
-
-
-
-
-
 -- Merge two rows using 'take from a unless empty, else from b'
 mergeRows :: [String] -> [String] -> [String]
 mergeRows a b = a ++ b
-
-
 
 -- Evaluate condition expression (supports ==, !=, <, >, AND, OR)
 evalCond :: CondExpr -> [String] -> Bool
@@ -243,10 +242,10 @@ resolve row (SelCond (Conditional cond thenItem elseItem)) =
 
 -- Utilities
 checkInEnv :: Env -> String -> String -> IO ()
-checkInEnv env opName name  =
+checkInEnv env opName name =
   case lookup name env of
-    Just _ -> return ()
-    Nothing -> fail $ "Error in " ++ opName ++ "operation: File not found in environment: " ++ name
+    Just _  -> return ()
+    Nothing -> throwIO $ MissingVariable $ opName ++ " — file not found: " ++ name
 
 checkArity :: [[String]] -> String -> [[String]] -> String -> IO ()
 checkArity f1 f1Name f2 f2Name =
@@ -254,9 +253,11 @@ checkArity f1 f1Name f2 f2Name =
       f2A = if null f2 then 0 else length (head f2)
   in if f1A == f2A
        then return ()
-       else fail $
-         "Arity mismatch:" ++ f1Name ++ " has " ++ show f1A ++
-         " columns, " ++ f2Name ++ " has " ++ show f2A ++ " columns."
+       else throwIO $
+         ArityMismatch $
+           f1Name ++ " has " ++ show f1A ++ " columns, " ++
+           f2Name ++ " has " ++ show f2A ++ " columns."
+
 
 safeIndex :: Int -> [String] -> String
 safeIndex i row = if i < length row then row !! i else ""
@@ -273,10 +274,10 @@ readNew file = do
   let path = file ++ ".csv"
   exists <- doesFileExist path
   if not exists
-    then throwIO $ userError $ "CSV file not found: " ++ path
+    then throwIO $ FileNotFound $ "CSV file not found: " ++ path
     else do
       rows <- handle
-        (\e -> throwIO $ userError $ "Error reading CSV file " ++ path ++ ": " ++ show (e :: IOException))
+        (\e -> throwIO $ FileNotFound $ "Error reading CSV file " ++ path ++ ": " ++ show (e :: IOException))
         (readCSV path)
       return $ map (map trim) rows
 
@@ -287,7 +288,7 @@ load :: Env -> String -> IO [[String]]
 load env name =
   case lookup name env of
     Just rows -> return (rows)
-    Nothing -> fail $ "File not found in environment: " ++ name
+    Nothing -> throwIO $ MissingVariable $ "File not found in environment: " ++ name
 
 joinWith :: Env -> ([String] -> [String] -> [String]) -> String -> String -> IO [[String]]
 joinWith env merge f1 f2 = do

@@ -5,7 +5,7 @@ import Lexer
 
 %name parseProgram
 %tokentype { Token }
-%error { parseError }
+%error { happyError }
 
 %token
   "="            { TokenAssign _ }
@@ -155,9 +155,9 @@ Comparator
   | "=^"                              { EndsWith }
 
 {
-parseError :: [Token] -> a
-parseError [] = error "Unknown Parse Error"
-parseError (t:_) = error ("Parse error at line:column " ++ tokenPosn t)
+happyError :: [Token] -> a
+happyError [] = error "Unknown Parse Error"
+happyError (t:_) = error ("Parse error at line:column " ++ tokenPosn t)
 
 showPos :: AlexPosn -> String
 showPos (AlexPn _ line col) = show line ++ ":" ++ show col
