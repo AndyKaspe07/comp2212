@@ -1,1 +1,0 @@
-Result = Filter(C, 0 == 1)
