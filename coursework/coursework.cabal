@@ -25,10 +25,10 @@ source-repository head
 library
   exposed-modules:
       Lib
-      Interpreter
+      SiftInterpreter
       CSVParser
-      Parser
-      Lexer
+      SiftParser
+      SiftLexer
   other-modules:
       Paths_coursework
   autogen-modules:

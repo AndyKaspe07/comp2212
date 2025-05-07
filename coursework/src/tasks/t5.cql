@@ -1,6 +1,6 @@
-f1 = Read(EX5A) //Stores contents of EX5A.csv
-f2 = Read(EX5B) //Stores contents of EX5B.csv
-f3 = InnerJoin(f1,f2) //InnerJoin on col 0
+f1 = Read(P) //Stores contents of P.csv
+f2 = Read(Q) //Stores contents of Q.csv
+f3 = InnerJoin(f1,f2) //InnerJoin on col0
 
 //Some logic to select the right columns
 final = Select(0,

@@ -37,10 +37,10 @@ library:
   source-dirs: src
   exposed-modules:
     - Lib
-    - Interpreter
+    - SiftInterpreter
     - CSVParser
-    - Parser
-    - Lexer
+    - SiftParser
+    - SiftLexer
   verbatim: |
     build-tool-depends:
       alex:alex,

@@ -1,6 +1,6 @@
-import Lexer
-import Parser
-import Interpreter (runProgram)
+import SiftLexer
+import SiftParser
+import SiftInterpreter (runProgram)
 import System.Environment (getArgs)
 import Control.Exception (catch, ErrorCall, displayException)
 import System.IO

@@ -1,11 +1,11 @@
-module Interpreter (runProgram) where
+module SiftInterpreter (runProgram) where
 
 import System.Directory (doesFileExist)
 import Control.Exception (IOException, throwIO, handle)
 import Data.List (intercalate, sort, isPrefixOf, isSuffixOf, isInfixOf)
 import Control.Monad (forM_, foldM)
 import Data.Char (isSpace)
-import Parser
+import SiftParser
 import Data.List.Split (splitOn)
 import qualified Data.Set as Set
 import Control.Exception (Exception, throwIO)

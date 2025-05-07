@@ -1,6 +1,6 @@
 {
-module Parser where
-import Lexer
+module SiftParser where
+import SiftLexer
 }
 
 %name parseProgram

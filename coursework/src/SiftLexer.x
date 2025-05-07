@@ -1,5 +1,5 @@
 {
-module Lexer where
+module SiftLexer where
 }
 
 %wrapper "posn"
