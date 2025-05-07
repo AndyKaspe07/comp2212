@@ -7,4 +7,3 @@ final = Select(0,
                IF 3 == "" THEN 7 ELSE 3
                FROM f3)
 Output(final)
-applies

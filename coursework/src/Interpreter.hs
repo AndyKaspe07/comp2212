@@ -40,16 +40,12 @@ interpret env stmts = do
 
 
 -- Handle a single statement
-interpretStmt :: Env -> Stmt -> IO Env
 interpretStmt env (Assign outName op) = do
-  -- Check if the name already exists in the environment
   case lookup outName env of
     Just _  -> throwIO $ VarAlreadyDefined outName
     Nothing -> do
-      putStrLn $ "Evaluating operation: " ++ show op ++ " -> " ++ outName
       result <- evalOperation env op
       let env' = (outName, result) : env
-      forM_ result (putStrLn . rowToCSV)
       return env'
 
 -- Standalone operation (without assignment)
@@ -59,7 +55,6 @@ interpretStmt env (StmtOp op) = interpretStmt env (Assign "out" op)
 interpretStmt env (OutputStmt file) = do
   checkInEnv env "Output" file
   rows <- load env file
-  putStrLn $ "Outputting: " ++ file
   forM_ (sort rows) (putStrLn . rowToCSV)
   return env
 
