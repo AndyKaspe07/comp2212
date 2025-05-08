@@ -1,6 +1,6 @@
 {
-module Parser where
-import Lexer
+module SiftParser where
+import SiftLexer
 }
 
 %name parseProgram
@@ -33,6 +33,7 @@ import Lexer
   "LeftJoin"     { TokenLeftJoin p }
   "RightJoin"    { TokenRightJoin p }
   "InnerJoin"    { TokenInnerJoin p }
+  "OuterJoin"    { TokenOuterJoin p }
   "Output"       { TokenOutput p }
   "=="           { TokenEq p }
   "!="           { TokenInEq p }
@@ -70,8 +71,8 @@ Output
   : "Output" "(" file ")"             { case $3 of TokenFileName _ s -> OutputStmt s }
 
 Operation
-  : "Select" "(" SelectArgs "FROM" FileList ")" {
-      SelectOp $3 $5
+  : "Select" "(" SelectArgs "FROM" file ")" {
+    let { TokenFileName _ f = $5 } in SelectOp $3 f
     }
   | "Filter" "(" file "," ConditionList ")" {
       let { TokenFileName _ f = $3 } in FilterOp f $5
@@ -112,6 +113,9 @@ Operation
   | "InnerJoin" "(" file "," file ")" {
       let { TokenFileName _ f1 = $3; TokenFileName _ f2 = $5 } in InnerJoinOp f1 f2
     }
+  | "OuterJoin" "(" file "," file ")" {
+      let { TokenFileName _ f1 = $3; TokenFileName _ f2 = $5 } in OuterJoinOp f1 f2
+    }
 
 
 
@@ -129,10 +133,6 @@ ConditionalExpression
   : "IF" ConditionList "THEN" SelectItem "ELSE" SelectItem {
       Conditional $2 $4 $6
     }
-
-FileList
-  : file                              { case $1 of TokenFileName _ s -> [s] }
-    | file "," FileList                 { case $1 of TokenFileName _ s -> s : $3 }
 
 ConditionList
   : Condition                         { CondSimple $1 }
@@ -171,7 +171,7 @@ data Stmt
   deriving Show
 
 data Operation
-  = SelectOp [SelectItem] [String]
+  = SelectOp [SelectItem] String
   | FilterOp String CondExpr
   | ProductOp String String
   | DistinctOp String Int
@@ -185,6 +185,7 @@ data Operation
   | LeftJoinOp String String
   | RightJoinOp String String
   | InnerJoinOp String String
+  | OuterJoinOp String String
   deriving Show
 
 data SelectItem
@@ -238,6 +239,7 @@ tokenPosn tok = case tok of
   TokenLeftJoin p       -> showPos p
   TokenRightJoin p      -> showPos p
   TokenInnerJoin p      -> showPos p
+  TokenOuterJoin p      -> showPos p
   TokenOutput p         -> showPos p
   TokenEq p             -> showPos p
   TokenInEq p           -> showPos p

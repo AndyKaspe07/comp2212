@@ -22,6 +22,7 @@ data InterpreterError
 
 instance Exception InterpreterError
 
+--entry point to interpret AST
 runProgram :: [Stmt] -> IO ()
 runProgram stmts = handle printInterpreterError $ interpret [] stmts
 
@@ -40,6 +41,8 @@ interpret env stmts = do
 
 
 -- Handle a single statement
+--Assigns a new file in the enviroment
+interpretStmt :: Env -> Stmt -> IO Env
 interpretStmt env (Assign outName op) = do
   case lookup outName env of
     Just _  -> throwIO $ VarAlreadyDefined outName
@@ -80,19 +83,59 @@ evalOperation env (ProductOp f1 f2) = do
 evalOperation env (LeftJoinOp f1 f2) = do
   checkInEnv env "leftJoin" f1
   checkInEnv env "leftJoin" f2
-  joinWith env mergeRows f1 f2
+  a <- load env f1
+  b <- load env f2
+  --finds length of f2
+  let bLen = maybe 0 length (safeHead b)
+  --adds matching row from f2 to f1, if f2 doesnt have a matching row empty values of f2's arity are added instead
+  let rows = concat
+        [ let matches = [ mergeRows r1 r2 | r2 <- b, safeIndex 0 r1 == safeIndex 0 r2 ]
+          in if null matches
+             then [ mergeRows r1 (replicate bLen "") ] -- pad with empty values
+             else matches
+        | r1 <- a
+        ]
+  return rows
 
 evalOperation env (RightJoinOp f1 f2) = do
   checkInEnv env "rightJoin" f1
   checkInEnv env "rightJoin" f2
-  joinWith env mergeRows f2 f1
+  a <- load env f1
+  b <- load env f2
+   --finds length of f1
+  let aLen = maybe 0 length (safeHead a)
+  --adds matching row from f2 to f1, if f2 doesnt have a matching row empty values of f2's arity are added instead
+  let rows = concat
+        [ let matches = [ mergeRows r2 r1 | r1 <- a, safeIndex 0 r1 == safeIndex 0 r2 ]
+          in if null matches
+             then [ mergeRows r2 (replicate aLen "") ]
+             else matches
+        | r2 <- b
+        ]
 
+  return rows
+
+--merge rows where a matching key exists in both files
 evalOperation env (InnerJoinOp f1 f2) = do
   checkInEnv env "innerJoin" f1
   checkInEnv env "innerJoin" f2
   a <- load env f1
   b <- load env f2
   return [ mergeRows r1 r2 | r1 <- a, r2 <- b, safeIndex 0 r1 == safeIndex 0 r2 ]
+
+--merge rows keeping rows with all keys across both files
+evalOperation env (OuterJoinOp f1 f2) = do 
+  checkInEnv env "outerJoin" f1
+  checkInEnv env "outerJoin" f2
+  left <- evalOperation env (LeftJoinOp f1 f2)
+  right <- evalOperation env (RightJoinOp f1 f2)
+  --get all keys from f1
+  let leftKeys = map (safeIndex 0) left
+  --find the rows from right that arent already in left
+  let uniqueRight = filter (\r -> safeIndex 0 r `notElem` leftKeys) right
+  --add unqiue right rows to get all rows 
+  return (left ++ uniqueRight)
+
 
 evalOperation _ (ReadOp f) = do
   a <- readNew f
@@ -143,13 +186,10 @@ evalOperation env (FilterOp f cond) = do
   rows <- load env f
   return (filter (evalCond cond) rows)
 
-evalOperation env (SelectOp items files) = do
-  case files of
-    [f] -> do
-      checkInEnv env "Select" f
-      rows <- load env f
-      return [ concatMap (resolve row) items | row <- rows ]
-    _ -> throwIO $ InvalidOperation "Select only supports one input file"
+evalOperation env (SelectOp items f) = do
+  checkInEnv env "Select" f
+  rows <- load env f
+  return [ concatMap (resolve row) items | row <- rows ]
 
 evalOperation env (DistinctOp file col) = do
   checkInEnv env "Distinct" file
@@ -176,6 +216,7 @@ evalCond (CondSimple c) row = evalBaseCond c row
 evalCond (CondAnd a b) row = evalCond a row && evalCond b row
 evalCond (CondOr a b) row = evalCond a row || evalCond b row
 
+--evaulates simple comparison 
 evalBaseCond :: Cond -> [String] -> Bool
 evalBaseCond (Cond i1 comp i2) row =
   let v1 = resolveIdent i1 row  -- actual value from CSV row
@@ -231,11 +272,8 @@ resolve row (SelCond (Conditional cond thenItem elseItem)) =
 
 
 
-
-
-
-
 -- Utilities
+--check whether a file is present in the enviroment
 checkInEnv :: Env -> String -> String -> IO ()
 checkInEnv env opName name =
   case lookup name env of
@@ -257,13 +295,17 @@ checkArity f1 f1Name f2 f2Name =
 safeIndex :: Int -> [String] -> String
 safeIndex i row = if i < length row then row !! i else ""
 
+safeHead :: [a] -> Maybe a
+safeHead []    = Nothing
+safeHead (x:_) = Just x
+
 trim :: String -> String
 trim = f . f where f = reverse . dropWhile isSpace
 
 rowToCSV :: [String] -> String
 rowToCSV = intercalate ","
  
---read a new file in from a csv file in memory   
+--read a new file in from a csv file in the enviroment
 readNew :: String -> IO [[String]]
 readNew file = do
   let path = file ++ ".csv"
@@ -284,12 +326,6 @@ load env name =
   case lookup name env of
     Just rows -> return (rows)
     Nothing -> throwIO $ MissingVariable $ "File not found in environment: " ++ name
-
-joinWith :: Env -> ([String] -> [String] -> [String]) -> String -> String -> IO [[String]]
-joinWith env merge f1 f2 = do
-  a <- load env f1
-  b <- load env f2
-  return [ merge r1 r2 | r1 <- a, r2 <- b, safeIndex 0 r1 == safeIndex 0 r2 ]
 
 readCSV :: FilePath -> IO [[String]]
 readCSV filePath = do
