@@ -47,8 +47,8 @@ library
     alex:alex,
     happy:happy
 
-executable main-exe
-  main-is: Main.hs
+executable sift
+  main-is: sift.hs
   other-modules:
       Paths_coursework
   autogen-modules:

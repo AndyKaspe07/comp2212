@@ -1,5 +1,5 @@
 {
-module Lexer where
+module SiftLexer where
 }
 
 %wrapper "posn"
@@ -10,7 +10,7 @@ $alphanum  = [$alpha$digit]
 
 tokens :-
   $white+                ;
-  "--"[^\n]*             ;
+  "//"[^\n]*             ;
   "="                   { \p _ -> TokenAssign p }
   "("                   { \p _ -> TokenLParen p }
   ")"                   { \p _ -> TokenRParen p }
@@ -35,6 +35,7 @@ tokens :-
   "LeftJoin"            { \p _ -> TokenLeftJoin p }
   "RightJoin"           { \p _ -> TokenRightJoin p }
   "InnerJoin"           { \p _ -> TokenInnerJoin p }
+  "OuterJoin"           { \p _ -> TokenOuterJoin p }
   "Output"              { \p _ -> TokenOutput p }
   "=="                  { \p _ -> TokenEq p }
   "!="                  { \p _ -> TokenInEq p }
@@ -75,6 +76,7 @@ data Token
   | TokenLeftJoin AlexPosn
   | TokenRightJoin AlexPosn
   | TokenInnerJoin AlexPosn
+  | TokenOuterJoin AlexPosn
   | TokenOutput AlexPosn
   | TokenAllColumns AlexPosn
   | TokenEq AlexPosn

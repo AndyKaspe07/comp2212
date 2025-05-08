@@ -6,30 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="e432edeb-da98-4929-97af-20a97abb5952" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/app/Main/Main.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/app/Main/Main.hs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/SyntaxHighlighting-1.0-SNAPSHOT.zip" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/SyntaxHighlighting-1.0-SNAPSHOT.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/app/Main/Main.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/app/Main/sift.hs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/coursework/coursework.cabal" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/coursework.cabal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/coursework/package.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/package.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/EX1A.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/EX1B.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/EX2A.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/EX3A.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/EX4A.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/EX5A.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/EX5B.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/Interpreter.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/SiftInterpreter.hs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/ex1.cql" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/tasks/t1.cql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/ex2.cql" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/tasks/t2.cql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/ex3.cql" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/tasks/t3.cql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/ex4.cql" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/tasks/t4.cql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/ex5.cql" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/tasks/t5.cql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/lexer.hs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/lexer.x" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/SiftLexer.x" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/package.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/parser.hs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/parser.y" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/SiftParser.y" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/test.cql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/src/test.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coursework/test.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/SiftLexer.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/SiftLexer.hs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/SiftLexer.x" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/SiftLexer.x" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/SiftParser.hs" beforeDir="false" afterPath="$PROJECT_DIR$/coursework/src/SiftParser.hs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/tasks/t1.cql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/tasks/t2.cql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/tasks/t3.cql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/tasks/t4.cql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/coursework/src/tasks/t5.cql" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +47,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/andykaspe/Documents/GitHub/comp2212/coursework&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -65,6 +58,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/coursework" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/coursework/src/tasks" />
       <recent name="$PROJECT_DIR$/coursework/src" />
@@ -108,6 +104,9 @@
       <workItem from="1746577219570" duration="1350000" />
       <workItem from="1746624982878" duration="2040000" />
       <workItem from="1746627034798" duration="4699000" />
+      <workItem from="1746664938144" duration="989000" />
+      <workItem from="1746665932837" duration="500000" />
+      <workItem from="1746666439395" duration="649000" />
     </task>
     <servers />
   </component>

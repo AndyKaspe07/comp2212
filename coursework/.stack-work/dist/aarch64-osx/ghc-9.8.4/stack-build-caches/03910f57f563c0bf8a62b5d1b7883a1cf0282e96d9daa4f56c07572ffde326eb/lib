@@ -1,0 +1,32 @@
+/Users/andykaspe/.ghcup/ghc/9.8.4/lib/ghc-9.8.4/lib/aarch64-osx-ghc-9.8.4/rts-1.0.2/include/MachDeps.h:
+  hash: 94f383f2743e37d6240fdf24b33714450bccce7dc5d0aa8e593f26e1b8a3d4af
+/Users/andykaspe/.ghcup/ghc/9.8.4/lib/ghc-9.8.4/lib/aarch64-osx-ghc-9.8.4/rts-1.0.2/include/ghcautoconf.h:
+  hash: 31a6fa7124df075a830c1ea860aa378361b89772a36a64c60d60a951b09298be
+/Users/andykaspe/.ghcup/ghc/9.8.4/lib/ghc-9.8.4/lib/aarch64-osx-ghc-9.8.4/rts-1.0.2/include/ghcconfig.h:
+  hash: 03f4611ae97decc9e8c76c212bf7886d003b29d5c62b43fee6623a799f6e5fdf
+/Users/andykaspe/.ghcup/ghc/9.8.4/lib/ghc-9.8.4/lib/aarch64-osx-ghc-9.8.4/rts-1.0.2/include/ghcplatform.h:
+  hash: 7d2f08f16a14d975742303660f1079c87b692248b026a31025c3e666aaaf6f45
+/Users/andykaspe/.ghcup/ghc/9.8.4/lib/ghc-9.8.4/lib/aarch64-osx-ghc-9.8.4/rts-1.0.2/include/ghcversion.h:
+  hash: 95162794a3bf5e6167631fdd41a509846597231d523d0f21a76713b1f801373c
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/.stack-work/dist/aarch64-osx/ghc-9.8.4/build/autogen/Paths_coursework.hs:
+  hash: e2617c1a28b281712b972ea7879995b4b001bedab2f7f17d90dca16a0eb740e8
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/.stack-work/dist/aarch64-osx/ghc-9.8.4/build/autogen/cabal_macros.h:
+  hash: 5990818c3fa965e8b7285c6e3ee149e776f7648ccf24755d7674ab9c9ebbc8e7
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/CHANGELOG.md:
+  hash: 6ca5837470307cb00125432305f9c6e5786a65572848377cb3791fefa0cc8f9d
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/README.md:
+  hash: a1e927e2dd954b49600b2f8a6f5817eb6eaca87ed031b301eaf6accfed6fccf0
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/coursework.cabal:
+  hash: a158a0126d41780d36cf9456aa327ec1859b55cd5c5dbff8edf8f6c8fdecd078
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/package.yaml:
+  hash: d48e140eb5c42f342aaa3d100f0d8294885e42e2e7d089652a32038a8c38ed69
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/src/CSVParser.hs:
+  hash: ea9463a2b40fd324f2ea4b7b6b7e802dd15e0a1df48ab095a207d97624542403
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/src/Lib.hs:
+  hash: 6c6e369fd604286f2a0aa73dd3ec40a010754aa8749b80ab4842c40cf2999ce8
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/src/SiftInterpreter.hs:
+  hash: 788338c68ad3cf25fabe5552e7668ae43f2eee2ada4ef8534db1decd6637ad2b
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/src/SiftLexer.x:
+  hash: cbc876a648aee0f1121bdd6008cdca50eb139a45ae9c9681a11c074207692d70
+/Users/andykaspe/Documents/GitHub/comp2212/coursework/src/SiftParser.y:
+  hash: 429a08b300ed6a8864e169b9937d40e931ba25360045b2db97298bcd4db00509
