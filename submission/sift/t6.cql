@@ -1,0 +1,11 @@
+a = Read(6P)
+b = Read(6Q)
+c = Read(6R)
+d = Read(6S)
+e = Read(6T)
+
+f = Product(a,b)
+g = Product(f,c)
+h = Product(g,d)
+i = Product(h,e)
+Output(i)
