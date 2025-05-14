@@ -1,12 +1,10 @@
-a = Read(9R)
-b = Read(9R)
+f1 = Read(R)
+f1swap = Select(1,0 FROM f1)
+f2 = InnerJoin(f1swap,f1)
+f2fix = Select(1,0,3 FROM f2)
+f2swap = Select(2,0,1 FROM f2fix)
+f3 = InnerJoin(f2swap, f1)
+f3fix = Select(1,2,0,4 FROM f3)
+final = Select(0,3 FROM f3fix)
+Output(final)
 
-c = Product(a,b)
-d = Filter(c, 1 == 2)
-e = Select(0,1,3 FROM d)
-
-f = Product(e, a)
-g = Filter(f, 2 == 3)
-h = Select(0,4 FROM g)
-
-Output(h)
